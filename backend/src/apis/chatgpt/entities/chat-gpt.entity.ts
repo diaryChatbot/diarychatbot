@@ -18,7 +18,7 @@ export class ChatGPT {
     ask: string;
 
 
-    @Column()
+    @Column({length: 600})
     @Field(() => String)
     answer: string;
 

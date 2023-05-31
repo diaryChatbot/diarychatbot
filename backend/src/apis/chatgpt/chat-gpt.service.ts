@@ -46,9 +46,9 @@ export class ChatGPTService {
     };
 
     const data = {
-        "model": "gpt-3.5-turbo",
-        "user":`${user.name}`, 
-        "messages": [ // 내용 system 은 챗봇의 역할을 부여 
+      "model": "gpt-3.5-turbo",
+      "user":`${user.name}`, 
+      "messages": [ // 내용 system 은 챗봇의 역할을 부여 
         {"role": "system", "content": `너는 일기를 보고 오늘 하루가 몇 점이었는지 수치로 나타내주는 챗봇 읽기짱 봇 이야.
         너는 뭐든 정확한 수치로 무조건 0점부터 100점까지 점수를 줘야해. 너는 뭐든지 대답할 수 있어 그리고 칭찬과 
         내일은 어떻게 하면 더 좋을지 조언을 해줘
@@ -57,8 +57,8 @@ export class ChatGPTService {
         0점이라고 말을 해줘. 무슨일이 있어도 점수를 줘야해. 그리고 내일은 어떻게 하면 더 좋을지 조언을 해줘
         `},
         {"role": "user", "content":ask},
-        
-      ]
+      ],
+      "max_tokens": 1000,
       }
       
     const response = await axios({
@@ -67,9 +67,9 @@ export class ChatGPTService {
       headers: headers,
       data: data
     }
-  
-      
       );
+    
+      // 데이터 가공
     const message = response.data.choices[0].message.content;
     const who = response.data.choices[0].message.role;
     let scoreStr = response.data.choices[0].message.content.replace(/[^0-9]/g,''); // 정규표현식사용 숫자 추출
@@ -84,8 +84,6 @@ export class ChatGPTService {
       score = 0;
     }
     // console.log(score)
-
-    
 
     const result = {
       message : message,
@@ -137,8 +135,7 @@ export class ChatGPTService {
      
     const {ask, title} = updateChatInput
     const response = await this.chatgptAxios({createChatInput: {ask}, user});
-    
-    
+
     const saveData = {
       ...findId,
       ask : ask,
