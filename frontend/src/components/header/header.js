@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const HeaderBg = styled.div`
-    color: #460f0f;
     display: flex;
     align-items: flex-end;
     padding: 20px;
@@ -9,10 +8,12 @@ const HeaderBg = styled.div`
 `;
 
 const Logo = styled.div`
+    color: #460f0f;
     font-size: 30px;
 `;
 
 const LogoCont = styled.span`
+    color: #460f0f;
     font-size: 15px;
     vertical-align: bottom;
     padding-left: 10px;
