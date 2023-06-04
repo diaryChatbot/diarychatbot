@@ -6,10 +6,13 @@ const Board = () => {
             <div>
                 <Button primary>Primary Button</Button>
                 <Button>Secondary Button</Button>
-                <Button primary size="small">
+                <Button primary small>
                     Primary Button
                 </Button>
-                <Button size="large">Secondarcvy Button</Button>
+                <Button small>Secondary Button</Button>
+                <Button google>google로 로그인</Button>
+                <Button naver>네이버로 로그인</Button>
+                <Button kakao>카카오계정으로 로그인</Button>
             </div>
         </>
     );

@@ -1,46 +1,65 @@
 import styled from 'styled-components';
+import googleIMG from './google.jpg';
+import kakaoIMG from './kakao.jpg';
+import naverIMG from './naver.jpg';
 
 const ButtonBg = styled.div`
-    width: 500px;
-    height: 60px;
-    margin: 10px;
+    margin: 20px;
 `;
 
 const ButtonShadow = styled.div`
     position: relative;
-    width: 100%;
-    height: 100%;
-    box-shadow: -7px -7px 12px rgba(255, 255, 255);
+    width: ${(props) => (props.small ? '300px' : '400px')};
+    height: 40px;
+    box-shadow: -3px -3px 7px white;
+    border-radius: 24px;
 `;
 
 const ButtonCont = styled.button`
+    background-color: ${(props) =>
+        props.primary
+            ? '#FF7549'
+            : props.google
+            ? '#CC3731'
+            : props.kakao
+            ? '#FFEA01'
+            : props.naver
+            ? '#1FC702'
+            : 'white'};
+    color: ${(props) => (props.primary || props.google || props.naver ? 'white' : '#371F21')};
+    border: ${(props) =>
+        props.google
+            ? '1px solid #7F2318'
+            : props.kakao
+            ? '1px solid #F0C99A'
+            : props.naver
+            ? '1px solid #3F9324'
+            : '2px solid #FF7549'};
     position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 1px solid black;
-
-    box-shadow: 8px 8px 12px rgba(80, 29, 0, 0.16);
-    background-color: ${(props) => (props.primary ? '#f50057' : 'white')};
-    font-size: 20px;
-    background-color: ${(props) => {
-        switch (props.backgroundColor) {
-            case 'small':
-                return '4px 8px';
-            case 'medium':
-                return '8px 16px';
-            case 'large':
-                return '12px 24px';
-            default:
-                return '8px 16px';
-        }
-    }};
+    width: ${(props) => (props.small ? '300px' : '400px')};
+    background-image: ${(props) =>
+        props.google
+            ? `url(${googleIMG})`
+            : props.kakao
+            ? `url(${kakaoIMG})`
+            : props.naver
+            ? `url(${naverIMG})`
+            : 'none'};
+    background-repeat: no-repeat;
+    background-position: 100px center;
+    background-size: 7%;
+    height: 45px;
+    box-shadow: 7px 7px 7px rgba(80, 29, 0, 0.16);
+    font-size: 16px;
+    font-weight: 600;
     border-radius: 24px;
+    padding-left: ${(props) => (props.google || props.naver || props.kakao) && '40px'};
 `;
 
 export const Button = ({ children, ...rest }) => {
     return (
         <ButtonBg>
-            <ButtonShadow>
+            <ButtonShadow {...rest}>
                 <ButtonCont {...rest}>{children}</ButtonCont>
             </ButtonShadow>
         </ButtonBg>
