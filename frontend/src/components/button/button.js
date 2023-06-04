@@ -4,7 +4,7 @@ import kakaoIMG from './kakao.jpg';
 import naverIMG from './naver.jpg';
 
 const ButtonBg = styled.div`
-    margin: 20px;
+    padding: 10px;
 `;
 
 const ButtonShadow = styled.div`

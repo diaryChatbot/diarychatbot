@@ -1,9 +1,11 @@
 import { Button } from '../../components/button/button';
+import { Header } from '../../components/header/header';
 
 const Board = () => {
     return (
         <>
             <div>
+                <Header />
                 <Button primary>Primary Button</Button>
                 <Button>Secondary Button</Button>
                 <Button primary small>
