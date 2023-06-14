@@ -1,16 +1,33 @@
-import { Route, Routes } from 'react-router-dom';
-import Board from './pages/board/Board';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Board from './pages/Board';
+import Main from './pages/Main';
+import ToasterProvider from './providers/ToasterProvider';
+import { checkAuthLoader } from './util/auth';
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        children: [
+            { index: true, element: <Login /> },
+            { path: 'regist', element: <Register /> },
+            {
+                path: 'main/:userId',
+                element: <Main />,
+                loader: checkAuthLoader,
+            },
+            { path: 'board', element: <Board /> },
+        ],
+    },
+]);
 
 const App = () => {
     return (
-        <div className="App">
-            <Routes>
-                <Route path={'board'} element={<Board />} />
-                {/* <Route path={'login'} element={<Login />} /> */}
-                {/* <Route path={'main'} element={<Main />} /> */}
-                {/* <Route path={'regist'} element={<Regist />} /> */}
-            </Routes>
-        </div>
+        <>
+            <ToasterProvider />
+            <RouterProvider router={router} />
+        </>
     );
 };
 
