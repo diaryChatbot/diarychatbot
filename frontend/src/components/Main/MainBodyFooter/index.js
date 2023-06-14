@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Styled from './style';
 import Button from '../../@shared/Button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLogout } from '../../../hooks/@query/useLogout';
 
 const MainBodyFooter = () => {
@@ -11,7 +11,7 @@ const MainBodyFooter = () => {
     return (
         <Styled.ButtonWrapper>
             <Button small primary>
-                글쓰기
+                <Link to="/Board"> 글쓰기</Link>
             </Button>
             <Button type="button" small onClick={Logout}>
                 로그아웃
