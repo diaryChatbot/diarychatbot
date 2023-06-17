@@ -17,7 +17,7 @@ const router = createBrowserRouter([
                 element: <Main />,
                 loader: checkAuthLoader,
             },
-            { path: 'board', element: <Board /> },
+            { path: 'Board/:id', element: <Board /> },
         ],
     },
 ]);

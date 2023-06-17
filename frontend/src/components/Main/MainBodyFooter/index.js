@@ -4,14 +4,14 @@ import Button from '../../@shared/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogout } from '../../../hooks/@query/useLogout';
 
-const MainBodyFooter = () => {
+const MainBodyFooter = ({ fetchMyDiary }) => {
     const navigate = useNavigate();
 
     const { mutate: Logout } = useLogout(navigate);
     return (
         <Styled.ButtonWrapper>
             <Button small primary>
-                <Link to="/Board"> 글쓰기</Link>
+                <Link to={`/Board/1`}> 글쓰기</Link>
             </Button>
             <Button type="button" small onClick={Logout}>
                 로그아웃

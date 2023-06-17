@@ -1,5 +1,8 @@
 import * as Styled from './style';
 import Memo from '../../@shared/Memo';
+import smile from './smile.png';
+import happy from './happy.png';
+import sad from './sad.png';
 
 const AiMemo = () => {
     return (
@@ -13,7 +16,9 @@ const AiMemo = () => {
             </Styled.Cont>
             <Styled.ScoreBg>
                 <Styled.Score>50점</Styled.Score>
-                {/* <Icon src={emoticon} alt="" /> */}
+                <Styled.Icon src={smile} alt="" />
+                <Styled.Icon src={happy} alt="" />
+                <Styled.Icon src={sad} alt="" />
             </Styled.ScoreBg>
         </Memo>
     );
