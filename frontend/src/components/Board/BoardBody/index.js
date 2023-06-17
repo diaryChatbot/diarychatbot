@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const BoardBody = ({ fetchMyDiary }) => {
+    const token = getUserToken();
+
     const navigate = useNavigate();
     const currentURL = window.location.href;
     const isBoardURL = currentURL.endsWith('/Board/1');
@@ -21,6 +23,7 @@ const BoardBody = ({ fetchMyDiary }) => {
         ask: '',
         id: '',
         stickerColor: '',
+        updatedAt: '',
     });
     const [diaries, setDiaries] = useState([]);
     useEffect(() => {
@@ -41,7 +44,6 @@ const BoardBody = ({ fetchMyDiary }) => {
     }, [diaries, id]);
 
     const createDiarys = async () => {
-        const token = getUserToken();
         const response = await axios.post(
             'https://jintakim.shop/graphql',
             {
@@ -73,12 +75,8 @@ const BoardBody = ({ fetchMyDiary }) => {
         setFormData(response.data.data.createDiary);
         console.log(response.data.data.createDiary);
     };
-    useEffect(() => {
-        console.log(formData, '폼작성');
-    }, [formData]);
 
     const updateMyDiary = async () => {
-        const token = getUserToken();
         const response = await axios.post(
             'https://jintakim.shop/graphql',
             {
@@ -109,12 +107,11 @@ const BoardBody = ({ fetchMyDiary }) => {
                 },
             },
         );
-        setFormData(response.data.data.createDiary);
+        setFormData(response.data.data.updateMyDiary);
         console.log(formData, '폼수정');
     };
 
     const deleteMyDiary = async () => {
-        const token = getUserToken();
         const response = await axios.post(
             'https://jintakim.shop/graphql',
             {
@@ -133,9 +130,19 @@ const BoardBody = ({ fetchMyDiary }) => {
         console.log(response);
         navigate(`/main/:userid`);
     };
-
+    const getBackgroundColor = (score) => {
+        //배경색 변경
+        if (score > 70) {
+            return '#FFAB99';
+        } else if (score <= 70 && score >= 30) {
+            return '#FFE0C2';
+        } else if (score < 30) {
+            return '#ACACAC';
+        }
+    };
     return (
         <>
+            <Styled.GlobalStyle backgroundColor={getBackgroundColor(formData.score)} />
             <Styled.BoardBodyBg>
                 <DairyMemo
                     formData={formData}
@@ -145,7 +152,7 @@ const BoardBody = ({ fetchMyDiary }) => {
                 <AiMemo formData={formData} setFormData={setFormData} />
             </Styled.BoardBodyBg>
             <BoardFooter
-                creatClick={createDiarys}
+                createClick={createDiarys}
                 deleteClick={deleteMyDiary}
                 updateClick={updateMyDiary}
             />

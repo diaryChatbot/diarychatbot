@@ -57,6 +57,9 @@ export const ButtonCont = styled.button`
     padding-left: ${(props) => (props.google || props.naver || props.kakao) && '40px'};
     cursor: pointer;
 
+    &:active {
+        background: #faf7f4;
+    }
     &:disabled {
         cursor: not-allowed;
         background-color: #e0e0e0;
