@@ -2,158 +2,46 @@ import * as Styled from './style';
 import Sticker from '../../@shared/Sticker';
 import Memo from '../../@shared/Memo';
 import { useEffect, useState } from 'react';
-import { getUserToken } from '../../../util/auth';
-import axios from 'axios';
 
-const DairyMemo = (formData,) => {
-    const date = new Date();
+const DairyMemo = ({ formData, setFormData, fetchMyDiary }) => {
+    const date = new Date(); // 오늘 날짜
     const dayOfWeek = date.getDay();
     const dateForm = date.toISOString().split('T')[0].split('-');
-    const [formData, setFormData] = useState({ title: '', ask: '', id: '', stickerColor: '' });
     const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
     const dayOfWeekString = daysOfWeek[dayOfWeek];
-    const [diaries, setDiaries] = useState([]);
-    const currentURL = window.location.href;
-    const id = currentURL.split('/').pop();
-    const isBoardURL = currentURL.endsWith('/Board/1');
     const [selectedSticker, setSelectedSticker] = useState(null);
+
     const stickers = [
-        { stickerColor: '#F3AC7F' },
-        { stickerColor: '#A5A2AA' },
         { stickerColor: '#dfb1a3' },
+        { stickerColor: '#A5A2AA' },
+        { stickerColor: '#F3AC7F' },
     ];
 
+    useEffect(() => {
+        // formData의 stickerColor 값에 따라 선택된 스티커 인덱스를 설정합니다.
+        const selectedStickerIndex = stickers.findIndex(
+            (sticker) => sticker.stickerColor === formData.stickerColor,
+        );
+        setSelectedSticker(selectedStickerIndex);
+    }, [formData.stickerColor]);
+
     const handleStickerClick = (index) => {
+        let stickerColor = '';
+        if (index === 0) {
+            stickerColor = 'orange';
+        } else if (index === 1) {
+            stickerColor = 'gray';
+        } else if (index === 2) {
+            stickerColor = 'scarlet';
+        }
         setSelectedSticker(index);
         setFormData((prevFormData) => ({
             ...prevFormData,
-            stickerColor: stickers[index].stickerColor,
+            stickerColor: stickerColor,
         }));
         console.log(formData);
     };
 
-    useEffect(() => {
-        //수정 시에 들어갈 수 있음
-        const fetchDiaries = async () => {
-            try {
-                const token = getUserToken();
-                const response = await axios.post(
-                    'https://jintakim.shop/graphql',
-                    {
-                        query: `query {
-                        fetchMyDiary {
-                            id
-                            ask
-                            sticker_color
-                            answer
-                            title
-                            score
-                            user {
-                                id
-                                email
-                                name
-                            }
-                            createdAt
-                            updatedAt
-                        }
-                    }`,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
-                );
-                const diaries = response.data.data.fetchMyDiary;
-                setDiaries(diaries);
-                console.log(diaries, 'alalal');
-                const specificDiary = diaries.find((diary) => diary.id === id);
-                setFormData(specificDiary); // 현재 페이지의 url에 잇는 정보의 다이어리를 가져오기
-                console.log(specificDiary, 'aaaaa');
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        if (!isBoardURL) {
-            //현재 url이 달라 /Board와
-            fetchDiaries();
-        }
-    }, []);
-
-    const createDiarys = async () => {
-        const token = getUserToken();
-        const response = await axios.post(
-            'https://jintakim.shop/graphql',
-            {
-                query: `mutation{
-          createDiary(createChatInput:{
-            title: "${formData.title}",
-            ask: "${formData.ask}",
-            stickerColor: "${formData.stickerColor}"
-          }){
-            id
-            title
-            ask
-            answer
-            score
-            sticker_color
-            user{
-                id
-            }
-            updatedAt
-          }
-        }`,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            },
-        );
-        setFormData(response.data.data.createDiary);
-    };
-
-    const updateMyDiary = async () => {
-        const token = getUserToken();
-        const response = await axios.post(
-            'https://jintakim.shop/graphql',
-            {
-                query: `mutation{
-          updateMyDiary(
-            id:{"${formData.id}"}
-            createChatInput:{
-            title: "${formData.title}",
-            ask: "${formData.ask}",
-            stickerColor: "${formData.stickerColor}"
-          }){
-            id
-            title
-            ask
-            answer
-            score
-            sticker_color
-            user{
-                id
-            }
-            updatedAt
-          }
-        }`,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            },
-        );
-        setFormData(response.data.data.createDiary);
-    };
-    const Diarys = () => {
-        if (isBoardURL) {
-            createDiarys();
-        } else {
-            updateMyDiary();
-        }
-    };
     const handleInput = (event) => {
         //NOTE 쓴 글
         const { name, value } = event.target;
@@ -168,11 +56,21 @@ const DairyMemo = (formData,) => {
             <Styled.TitleBg>
                 <Styled.Tilte>제목</Styled.Tilte>
                 <Styled.TitleCont>
-                    <input name="title" value={formData.title} onChange={handleInput} />
+                    <input
+                        name="title"
+                        placeholder="오늘 하루의 일기의 제목을 입력해주세요!"
+                        value={formData.title}
+                        onChange={handleInput}
+                    />
                 </Styled.TitleCont>
             </Styled.TitleBg>
             <Styled.Cont>
-                <input name="ask" value={formData.ask} onChange={handleInput} />
+                <input
+                    name="ask"
+                    placeholder="오늘 하루의 일기의 내용을 입력해주세요!"
+                    value={formData.ask}
+                    onChange={handleInput}
+                />
             </Styled.Cont>
             <Styled.Palette>
                 {stickers.map((sticker, index) => (
@@ -184,8 +82,8 @@ const DairyMemo = (formData,) => {
                     />
                 ))}
             </Styled.Palette>
-            <button onClick={Diarys}>제출</button>
         </Memo>
     );
 };
+
 export default DairyMemo;

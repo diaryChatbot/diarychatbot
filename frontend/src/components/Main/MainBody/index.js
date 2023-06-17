@@ -7,7 +7,7 @@ const MainBody = ({ fetchMyDiary }) => {
     return (
         <Styled.ContentWrapper>
             <BoardLists fetchMyDiary={fetchMyDiary} />
-            <MainBodyFooter fetchMyDiary={fetchMyDiary} />
+            <MainBodyFooter />
         </Styled.ContentWrapper>
     );
 };
