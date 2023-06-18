@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 // import { getUserToken } from '../../../util/auth';
 // import axios from 'axios';
 
-const BoardList = ({ createDate, daysOfWeek, id, title, desc, stickerColor }) => {
+const BoardList = ({ createDate, daysOfWeek, id, title, desc, color }) => {
     return (
         <Link to={`/Board/${id}`}>
             <Styled.BoardCard>
-                <Styled.Sticker small stickerColor={stickerColor} />
+                <Styled.Sticker small color={color} />
                 <Styled.BoardTitleWrapper>
                     <Styled.BoardTitlePin />
                     <Styled.BoardTitle>{title}</Styled.BoardTitle>

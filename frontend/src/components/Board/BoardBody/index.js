@@ -18,11 +18,11 @@ const BoardBody = ({ fetchMyDiary }) => {
         answer: '',
         createAt: '',
         title: '',
-        sticker_color: '',
+        color: '',
         updateMyDiary: '',
         ask: '',
         id: '',
-        stickerColor: '',
+        color: '',
         updatedAt: '',
     });
     const [diaries, setDiaries] = useState([]);
@@ -51,14 +51,14 @@ const BoardBody = ({ fetchMyDiary }) => {
           createDiary(createChatInput:{
             title: "${formData.title}",
             ask: "${formData.ask}",
-            stickerColor: ${formData.stickerColor}
+            color: ${formData.color}
           }){
             id
             title
             ask
             answer
             score
-            sticker_color
+            color
             user{
                 id
             }
@@ -86,14 +86,14 @@ const BoardBody = ({ fetchMyDiary }) => {
             updateChatInput:{
             title: "${formData.title}",
             ask: "${formData.ask}",
-            stickerColor: ${formData.stickerColor}
+            color: ${formData.color}
           }){
             id
             title
             ask
             answer
             score
-            sticker_color
+            color
             user{
                 id
             }

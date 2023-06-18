@@ -15,25 +15,21 @@ const DairyMemo = ({ formData, setFormData }) => {
     const [year, month, day] = yearMonthDay.split('-');
     console.log(month); // "06"
     console.log(day); // "17"
-    const stickers = [
-        { stickerColor: '#dfb1a3' },
-        { stickerColor: '#A5A2AA' },
-        { stickerColor: '#F3AC7F' },
-    ];
+    const stickers = [{ color: '#dfb1a3' }, { color: '#A5A2AA' }, { color: '#F3AC7F' }];
 
     const handleStickerClick = (index) => {
-        let stickerColor = '';
+        let color = '';
         if (index === 0) {
-            stickerColor = 'orange';
+            color = 'orange';
         } else if (index === 1) {
-            stickerColor = 'gray';
+            color = 'gray';
         } else if (index === 2) {
-            stickerColor = 'scarlet';
+            color = 'scarlet';
         }
         setSelectedSticker(index);
         setFormData((prevFormData) => ({
             ...prevFormData,
-            stickerColor: stickerColor,
+            color: color,
         }));
         console.log(formData);
     };
@@ -73,7 +69,7 @@ const DairyMemo = ({ formData, setFormData }) => {
                 {stickers.map((sticker, index) => (
                     <Sticker
                         key={index}
-                        stickerColor={sticker.stickerColor}
+                        color={sticker.color}
                         isSelected={selectedSticker === index}
                         onClick={() => handleStickerClick(index)}
                     />
