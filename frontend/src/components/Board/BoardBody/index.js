@@ -10,7 +10,6 @@ import { toast } from 'react-hot-toast';
 
 const BoardBody = ({ fetchMyDiary }) => {
     const token = getUserToken();
-
     const navigate = useNavigate();
     const currentURL = window.location.href;
     const isBoardURL = currentURL.endsWith('/Board/1');
@@ -26,8 +25,8 @@ const BoardBody = ({ fetchMyDiary }) => {
         updatedAt: '',
     });
     const [diaries, setDiaries] = useState([]);
+
     useEffect(() => {
-        // 수정 시에 들어갈 수 있음
         if (!isBoardURL) {
             setDiaries(fetchMyDiary);
         }
@@ -44,97 +43,126 @@ const BoardBody = ({ fetchMyDiary }) => {
     }, [diaries, id]);
 
     const createDiarys = async () => {
-        const response = await axios.post(
-            'https://jintakim.shop/graphql',
-            {
-                query: `mutation{
-          createDiary(createChatInput:{
-            title: "${formData.title}",
-            ask: "${formData.ask}",
-            color: ${formData.color}
-          }){
-            id
-            title
-            ask
-            answer
-            score
-            color
-            user{
+        try {
+            const response = await axios.post(
+                'https://jintakim.shop/graphql',
+                {
+                    query: `
+            mutation {
+              createDiary(createChatInput: {
+                title: "${formData.title}",
+                ask: "${formData.ask}",
+                color: ${formData.color}
+              }) {
                 id
+                title
+                ask
+                answer
+                score
+                color
+                user {
+                  id
+                }
+                updatedAt
+              }
             }
-            updatedAt
-          }
-        }`,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
+          `,
                 },
-            },
-        );
-        setFormData(response.data.data.createDiary);
-        console.log(response.data.data.createDiary);
-        toast.success('일기가 저장 되었습니다.');
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            setFormData(response.data.data.createDiary);
+            console.log(response.data.data.createDiary);
+            toast.success('일기가 저장 되었습니다.');
+        } catch (error) {
+            console.error(error);
+            toast.error('일기 저장에 실패했습니다.');
+        }
     };
 
     const updateMyDiary = async () => {
-        const response = await axios.post(
-            'https://jintakim.shop/graphql',
-            {
-                query: `mutation{
-          updateMyDiary(
-            id:"${formData.id}",
-            updateChatInput:{
-            title: "${formData.title}",
-            ask: "${formData.ask}",
-            color: ${formData.color}
-          }){
-            id
-            title
-            ask
-            answer
-            score
-            color
-            user{
-                id
+        try {
+            if (formData.color === '#dfb1a3') {
+                formData.color = 'scarlet';
+            } else if (formData.color === '#A5A2AA') {
+                formData.color = 'gray';
+            } else if (formData.color === '#F3AC7F') {
+                formData.color = 'orange';
             }
-            updatedAt
-          }
-        }`,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
+            const response = await axios.post(
+                'https://jintakim.shop/graphql',
+                {
+                    query: `
+            mutation {
+              updateMyDiary(
+                id: "${formData.id}",
+                updateChatInput: {
+                  title: "${formData.title}",
+                  ask: "${formData.ask}",
+                  color: ${formData.color}
+                }
+              ) {
+                id
+                title
+                ask
+                answer
+                score
+                color
+                user {
+                  id
+                }
+                updatedAt
+              }
+            }
+          `,
                 },
-            },
-        );
-        setFormData(response.data.data.updateMyDiary);
-        console.log(formData, '폼수정');
-        toast.success('일기가 수정 되었습니다.');
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            setFormData(response.data.data.updateMyDiary);
+            console.log(formData, '폼수정');
+            toast.success('일기가 수정 되었습니다.');
+        } catch (error) {
+            console.error(error);
+            toast.error('일기 수정에 실패했습니다.');
+        }
     };
 
     const deleteMyDiary = async () => {
-        const response = await axios.post(
-            'https://jintakim.shop/graphql',
-            {
-                query: `mutation{
-          deleteMyDiary(
-            id:"${formData.id}"
-          )
-        }`,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
+        try {
+            const response = await axios.post(
+                'https://jintakim.shop/graphql',
+                {
+                    query: `
+            mutation {
+              deleteMyDiary(
+                id: "${formData.id}"
+              )
+            }
+          `,
                 },
-            },
-        );
-        console.log(response);
-        navigate(`/main/:userid`);
-        toast.success('일기가 삭제 되었습니다.');
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            console.log(response);
+            navigate(`/main/:userid`);
+            toast.success('일기가 삭제 되었습니다.');
+        } catch (error) {
+            console.error(error);
+            toast.error('일기 삭제에 실패했습니다.');
+        }
     };
+
     const getBackgroundColor = (score) => {
-        //배경색 변경
         if (score > 70) {
             return '#FFAB99';
         } else if (score <= 70 && score >= 30) {
@@ -143,6 +171,7 @@ const BoardBody = ({ fetchMyDiary }) => {
             return '#ACACAC';
         }
     };
+
     return (
         <>
             <Styled.GlobalStyle backgroundColor={getBackgroundColor(formData.score)} />

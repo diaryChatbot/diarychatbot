@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Date = styled.div`
     padding: 1rem 3rem;
@@ -45,9 +45,6 @@ export const Cont = styled.textarea`
     font-family: var(--font-notoSerifKR);
     border-bottom: 1px solid #b0b0b0;
     background-color: #faf7f4;
-    &:focus {
-        border: 1px solid black;
-    }
 `;
 export const Palette = styled.div`
     justify-content: space-around;

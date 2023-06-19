@@ -15,31 +15,23 @@ const DairyMemo = ({ formData, setFormData }) => {
     const updatedaysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
     const updatedayOfWeekString = updatedaysOfWeek[updatedayOfWeek];
 
-    const [selectedSticker, setSelectedSticker] = useState(null);
+    const [selectedSticker, setSelectedSticker] = useState(formData.color);
     const datetime = formData.updatedAt;
     const [yearMonthDay, time] = datetime.split('T');
     const [year, month, day] = yearMonthDay.split('-');
     const stickers = [{ color: '#dfb1a3' }, { color: '#A5A2AA' }, { color: '#F3AC7F' }];
     useEffect(() => {
-        // 페이지가 로드될 때 formData의 color 값을 기준으로 선택된 스티커 인덱스를 설정
         const colorIndex = stickers.findIndex((sticker) => sticker.color === formData.color);
         setSelectedSticker(colorIndex);
-    }, [formData.color, stickers]);
+    }, [formData.color]);
 
     const handleStickerClick = (index) => {
-        let color = '';
-        if (index === 0) {
-            color = 'scarlet';
-        } else if (index === 1) {
-            color = 'gray';
-        } else if (index === 2) {
-            color = 'orange';
-        }
+        const color = stickers[index].color;
+        setSelectedSticker(index);
         setFormData((prevFormData) => ({
             ...prevFormData,
             color: color,
         }));
-        console.log(formData);
     };
 
     const handleInput = (event) => {
@@ -78,7 +70,7 @@ const DairyMemo = ({ formData, setFormData }) => {
                     <Sticker
                         key={index}
                         color={sticker.color}
-                        isSelected={selectedSticker === index}
+                        isSelected={sticker.color === formData.color}
                         onClick={() => handleStickerClick(index)}
                     />
                 ))}
