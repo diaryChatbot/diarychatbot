@@ -7,7 +7,12 @@ export const BoardCard = styled.div`
     height: 35rem;
     padding: 5rem 3rem;
     background-color: #fff;
-    box-shadow: 0.4rem 0.4rem 1rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12), 0 0.1rem 0.2rem rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    &:hover {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25), 0 1rem 1rem rgba(0, 0, 0, 0.22);
+    }
 `;
 
 export const Sticker = styled(StickerAlign)`

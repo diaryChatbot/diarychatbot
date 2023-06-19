@@ -1,8 +1,6 @@
 import React from 'react';
 import * as Styled from './style';
 import { Link } from 'react-router-dom';
-// import { getUserToken } from '../../../util/auth';
-// import axios from 'axios';
 
 const BoardList = ({ createDate, daysOfWeek, id, title, desc, color }) => {
     return (

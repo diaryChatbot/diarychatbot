@@ -44,7 +44,7 @@ export const createtDiary = async (formData) => {
           createDiary(createChatInput:{
             title: "${formData.title}",
             ask: "${formData.ask}",
-            color: "${formData.color}"
+            color: ${formData.color}
           }){
             id
             title
@@ -70,7 +70,7 @@ export const updateMyDiary = async (formData) => {
             createChatInput:{
             title: "${formData.title}",
             ask: "${formData.ask}",
-            color: "${formData.color}"
+            color: ${formData.color}
           }){
             id
             title

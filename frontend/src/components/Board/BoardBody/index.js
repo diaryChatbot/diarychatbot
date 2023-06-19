@@ -22,7 +22,6 @@ const BoardBody = ({ fetchMyDiary }) => {
         updateMyDiary: '',
         ask: '',
         id: '',
-        color: '',
         updatedAt: '',
     });
     const [diaries, setDiaries] = useState([]);
