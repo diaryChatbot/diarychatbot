@@ -43,30 +43,38 @@ const BoardBody = ({ fetchMyDiary }) => {
     }, [diaries, id]);
 
     const createDiarys = async () => {
+        console.log(formData);
+        if (formData.color === '#dfb1a3') {
+            formData.color = 'scarlet';
+        } else if (formData.color === '#A5A2AA') {
+            formData.color = 'gray';
+        } else if (formData.color === '#F3AC7F') {
+            formData.color = 'orange';
+        }
         try {
             const response = await axios.post(
                 'https://jintakim.shop/graphql',
                 {
                     query: `
-            mutation {
-              createDiary(createChatInput: {
-                title: "${formData.title}",
-                ask: "${formData.ask}",
-                color: ${formData.color}
-              }) {
-                id
-                title
-                ask
-                answer
-                score
-                color
-                user {
-                  id
+                mutation {
+                createDiary(createChatInput: {
+                    title: "${formData.title}",
+                    ask: "${formData.ask}",
+                    color: ${formData.color}
+                }) {
+                    id
+                    title
+                    ask
+                    answer
+                    score
+                    color
+                    user {
+                    id
+                    }
+                    updatedAt
                 }
-                updatedAt
-              }
-            }
-          `,
+                }
+            `,
                 },
                 {
                     headers: {

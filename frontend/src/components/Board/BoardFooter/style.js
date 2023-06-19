@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const ButtonWrapper = styled.div`
-    margin-top: 10rem;
-    margin-bottom: 11rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
     margin-left: auto;
     margin-right: auto;
     max-width: 32rem;

@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 
 export const BoardBodyBg = styled.div`
-    margin-top: 10rem;
-    margin-bottom: 11rem;
     margin-left: auto;
     margin-right: auto;
     width: 44rem;
