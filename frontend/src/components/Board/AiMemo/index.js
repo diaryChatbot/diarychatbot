@@ -3,7 +3,7 @@ import Memo from '../../@shared/Memo';
 import smile from './smile.png';
 import happy from './happy.png';
 import sad from './sad.png';
-import { TypingEffect } from '../BoardBody/TypingEffect';
+import { TypingEffect } from '../../@shared/TypingEffect/TypingEffect';
 
 const AiMemo = ({ formData }) => {
     return (

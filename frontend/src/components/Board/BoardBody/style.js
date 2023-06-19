@@ -4,7 +4,6 @@ import { createGlobalStyle } from 'styled-components';
 export const BoardBodyBg = styled.div`
     margin-top: 10rem;
     margin-bottom: 11rem;
-    // width: 100%;
     margin-left: auto;
     margin-right: auto;
     width: 44rem;
@@ -13,7 +12,6 @@ export const BoardBodyBg = styled.div`
         justify-content: center;
         align-items: center;
     }
-    // margin: 5rem auto 0;
     font-family: var(--font-notoSerifKR);
 `;
 

@@ -2,15 +2,15 @@ import styled from 'styled-components';
 
 export const Cont = styled.div`
     padding: 3rem;
-    min-height: 25rem;
     min-width: 40rem;
+    min-height: 25rem;
 `;
 
 export const ScoreBg = styled.div`
     text-align: center;
     @media (min-width: 65rem) {
-        justify-content: space-around;
         display: flex;
+        justify-content: space-around;
         align-items: center;
     }
 `;
@@ -23,6 +23,5 @@ export const Score = styled.div`
     }
 `;
 export const Icon = styled.img`
-    // width: 20rem;
     height: 18rem;
 `;

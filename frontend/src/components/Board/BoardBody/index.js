@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { getUserToken } from '../../../util/auth';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const BoardBody = ({ fetchMyDiary }) => {
     const token = getUserToken();
@@ -73,6 +74,7 @@ const BoardBody = ({ fetchMyDiary }) => {
         );
         setFormData(response.data.data.createDiary);
         console.log(response.data.data.createDiary);
+        toast.success('일기가 저장 되었습니다.');
     };
 
     const updateMyDiary = async () => {
@@ -108,6 +110,7 @@ const BoardBody = ({ fetchMyDiary }) => {
         );
         setFormData(response.data.data.updateMyDiary);
         console.log(formData, '폼수정');
+        toast.success('일기가 수정 되었습니다.');
     };
 
     const deleteMyDiary = async () => {
@@ -128,6 +131,7 @@ const BoardBody = ({ fetchMyDiary }) => {
         );
         console.log(response);
         navigate(`/main/:userid`);
+        toast.success('일기가 삭제 되었습니다.');
     };
     const getBackgroundColor = (score) => {
         //배경색 변경
@@ -154,6 +158,7 @@ const BoardBody = ({ fetchMyDiary }) => {
                 createClick={createDiarys}
                 deleteClick={deleteMyDiary}
                 updateClick={updateMyDiary}
+                formData={formData}
             />
         </>
     );

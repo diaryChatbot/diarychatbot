@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 
 const DairyMemo = ({ formData, setFormData }) => {
     const date = new Date(); // 오늘 날짜
-    const dayOfWeek = date.getDay();
-    const dateForm = date.toISOString().split('T')[0].split('-');
+    const dayOfWeek = date.getUTCDay();
+    const dateForm = date.toISOString('ko-KR').split('T')[0].split('-');
     const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
     const dayOfWeekString = daysOfWeek[dayOfWeek];
 
     const updatedate = new Date(formData.updatedAt); // 오늘 날짜
-    const updatedayOfWeek = updatedate.getDay();
-    const updatedaysOfWeek = ['토요일', '일요일', '월요일', '화요일', '수요일', '목요일', '금요일']; //요일 넣으려면 api필요
+    const updatedayOfWeek = updatedate.getUTCDay();
+    const updatedaysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
     const updatedayOfWeekString = updatedaysOfWeek[updatedayOfWeek];
 
     const [selectedSticker, setSelectedSticker] = useState(null);
@@ -20,6 +20,11 @@ const DairyMemo = ({ formData, setFormData }) => {
     const [yearMonthDay, time] = datetime.split('T');
     const [year, month, day] = yearMonthDay.split('-');
     const stickers = [{ color: '#dfb1a3' }, { color: '#A5A2AA' }, { color: '#F3AC7F' }];
+    useEffect(() => {
+        // 페이지가 로드될 때 formData의 color 값을 기준으로 선택된 스티커 인덱스를 설정
+        const colorIndex = stickers.findIndex((sticker) => sticker.color === formData.color);
+        setSelectedSticker(colorIndex);
+    }, [formData.color, stickers]);
 
     const handleStickerClick = (index) => {
         let color = '';
@@ -30,7 +35,6 @@ const DairyMemo = ({ formData, setFormData }) => {
         } else if (index === 2) {
             color = 'orange';
         }
-        setSelectedSticker(index);
         setFormData((prevFormData) => ({
             ...prevFormData,
             color: color,
