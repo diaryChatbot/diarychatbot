@@ -1,16 +1,17 @@
-import * as Styled from './style';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCreateDiary } from '../../../hooks/@query/useCreateDiary';
+import { useUpdateDiary } from '../../../hooks/@query/useUpdateDiary';
+import { getUserToken } from '../../../util/auth';
+import AiMemo from '../AiMemo';
 import BoardFooter from '../BoardFooter';
 import DairyMemo from '../DairyMemo';
-import AiMemo from '../AiMemo';
-import { useEffect, useState } from 'react';
-import { getUserToken } from '../../../util/auth';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import * as Styled from './style';
 
 const BoardBody = ({ fetchMyDiary }) => {
     const token = getUserToken();
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const currentURL = window.location.href;
     const isBoardURL = currentURL.endsWith('/Board/1');
     const id = currentURL.split('/').pop();
@@ -41,105 +42,16 @@ const BoardBody = ({ fetchMyDiary }) => {
             }
         }
     }, [diaries, id]);
-
-    const createDiarys = async () => {
-        console.log(formData);
-        if (formData.color === '#dfb1a3') {
-            formData.color = 'scarlet';
-        } else if (formData.color === '#A5A2AA') {
-            formData.color = 'gray';
-        } else if (formData.color === '#F3AC7F') {
-            formData.color = 'orange';
-        }
-        try {
-            const response = await axios.post(
-                'https://jintakim.shop/graphql',
-                {
-                    query: `
-                mutation {
-                createDiary(createChatInput: {
-                    title: "${formData.title}",
-                    ask: "${formData.ask}",
-                    color: ${formData.color}
-                }) {
-                    id
-                    title
-                    ask
-                    answer
-                    score
-                    color
-                    user {
-                    id
-                    }
-                    updatedAt
-                }
-                }
-            `,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            );
-            setFormData(response.data.data.createDiary);
-            console.log(response.data.data.createDiary);
-            toast.success('일기가 저장 되었습니다.');
-        } catch (error) {
-            console.error(error);
-            toast.error('일기 저장에 실패했습니다.');
-        }
+    const { mutate: createDiary } = useCreateDiary(setIsLoading);
+    const CreateDiary = (formData) => {
+        setIsLoading(true);
+        createDiary(formData);
     };
 
-    const updateMyDiary = async () => {
-        try {
-            if (formData.color === '#dfb1a3') {
-                formData.color = 'scarlet';
-            } else if (formData.color === '#A5A2AA') {
-                formData.color = 'gray';
-            } else if (formData.color === '#F3AC7F') {
-                formData.color = 'orange';
-            }
-            const response = await axios.post(
-                'https://jintakim.shop/graphql',
-                {
-                    query: `
-            mutation {
-              updateMyDiary(
-                id: "${formData.id}",
-                updateChatInput: {
-                  title: "${formData.title}",
-                  ask: "${formData.ask}",
-                  color: ${formData.color}
-                }
-              ) {
-                id
-                title
-                ask
-                answer
-                score
-                color
-                user {
-                  id
-                }
-                updatedAt
-              }
-            }
-          `,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            );
-            setFormData(response.data.data.updateMyDiary);
-            console.log(formData, '폼수정');
-            toast.success('일기가 수정 되었습니다.');
-        } catch (error) {
-            console.error(error);
-            toast.error('일기 수정에 실패했습니다.');
-        }
+    const { mutate: updateMyDiary } = useUpdateDiary(setIsLoading);
+    const UpdateMyDiary = (formData) => {
+        setIsLoading(true);
+        updateMyDiary(formData);
     };
 
     const deleteMyDiary = async () => {
@@ -162,11 +74,11 @@ const BoardBody = ({ fetchMyDiary }) => {
                 },
             );
             console.log(response);
-            navigate(`/main/:userid`);
-            toast.success('일기가 삭제 되었습니다.');
+            // navigate(`/main/:userid`);
+            // toast.success('일기가 삭제 되었습니다.');
         } catch (error) {
             console.error(error);
-            toast.error('일기 삭제에 실패했습니다.');
+            // toast.error('일기 삭제에 실패했습니다.');
         }
     };
 
@@ -192,9 +104,23 @@ const BoardBody = ({ fetchMyDiary }) => {
                 <AiMemo formData={formData} setFormData={setFormData} />
             </Styled.BoardBodyBg>
             <BoardFooter
-                createClick={createDiarys}
+                createClick={() =>
+                    CreateDiary({
+                        id: formData.id,
+                        title: formData.title,
+                        ask: formData.ask,
+                        color: formData.color,
+                    })
+                }
                 deleteClick={deleteMyDiary}
-                updateClick={updateMyDiary}
+                updateClick={() =>
+                    UpdateMyDiary({
+                        id: formData.id,
+                        title: formData.title,
+                        ask: formData.ask,
+                        color: formData.color,
+                    })
+                }
                 formData={formData}
             />
         </>

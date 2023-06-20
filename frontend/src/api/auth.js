@@ -38,7 +38,15 @@ export const getToken = async () => {
     });
     return response;
 };
-export const createtDiary = async (formData) => {
+
+export const createDiary = async (formData) => {
+    if (formData.color === '#dfb1a3') {
+        formData.color = 'scarlet';
+    } else if (formData.color === '#A5A2AA') {
+        formData.color = 'gray';
+    } else if (formData.color === '#F3AC7F') {
+        formData.color = 'orange';
+    }
     const response = await instance.post('', {
         query: `mutation{
           createDiary(createChatInput:{
@@ -63,10 +71,17 @@ export const createtDiary = async (formData) => {
 };
 
 export const updateMyDiary = async (formData) => {
+    if (formData.color === '#dfb1a3') {
+        formData.color = 'scarlet';
+    } else if (formData.color === '#A5A2AA') {
+        formData.color = 'gray';
+    } else if (formData.color === '#F3AC7F') {
+        formData.color = 'orange';
+    }
     const response = await instance.post('', {
         query: `mutation{
           updateMyDiary(
-            id:{"${formData.id}"}
+            id:{"${formData.id}"},
             createChatInput:{
             title: "${formData.title}",
             ask: "${formData.ask}",

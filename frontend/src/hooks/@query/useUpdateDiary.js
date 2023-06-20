@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
-import { createDiary } from '../../api/auth';
+import { updateMyDiary } from '../../api/auth';
 import { toast } from 'react-hot-toast';
 
-export const useCreateDiary = (setIsLoading) => {
-    return useMutation(createDiary, {
+export const useUpdateDiary = (setIsLoading) => {
+    return useMutation(updateMyDiary, {
         onSuccess: (data) => {
-            toast.success('일기작성에 성공했습니다.');
+            toast.success('일기가 수정 되었습니다.');
             console.log(data);
         },
         onError: (error) => {
-            toast.error('일기작성에 실패했습니다.');
+            toast.error('일기 수정이 실패했습니다.');
             console.log(error);
         },
         onSettled: () => {
