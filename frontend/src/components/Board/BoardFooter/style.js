@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
 export const ButtonWrapper = styled.div`
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 4rem auto;
     max-width: 32rem;
     width: 100%;
     @media (min-width: 65rem) {
