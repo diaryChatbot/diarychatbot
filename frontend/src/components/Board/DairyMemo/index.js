@@ -9,12 +9,10 @@ const DairyMemo = ({ formData, setFormData }) => {
     const dateForm = date.toISOString('ko-KR').split('T')[0].split('-');
     const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
     const dayOfWeekString = daysOfWeek[dayOfWeek];
-
     const updatedate = new Date(formData.updatedAt); // 오늘 날짜
     const updatedayOfWeek = updatedate.getUTCDay();
     const updatedaysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
     const updatedayOfWeekString = updatedaysOfWeek[updatedayOfWeek];
-
     const [selectedSticker, setSelectedSticker] = useState(formData.color);
     const datetime = formData.updatedAt;
     const [yearMonthDay, time] = datetime.split('T');
