@@ -61,7 +61,7 @@ export const createDiary = async (formData) => {
             score
             color
             user{
-                id
+             id
             }
             updatedAt
           }

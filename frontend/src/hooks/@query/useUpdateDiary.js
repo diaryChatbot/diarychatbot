@@ -4,13 +4,11 @@ import { toast } from 'react-hot-toast';
 
 export const useUpdateDiary = (setIsLoading) => {
     return useMutation(updateMyDiary, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success('일기가 수정 되었습니다.');
-            console.log(data);
         },
-        onError: (error) => {
+        onError: () => {
             toast.error('일기 수정이 실패했습니다.');
-            console.log(error);
         },
         onSettled: () => {
             setIsLoading(false);

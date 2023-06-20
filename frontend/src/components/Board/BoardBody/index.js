@@ -54,7 +54,7 @@ const BoardBody = ({ fetchMyDiary }) => {
                 />
                 <AiMemo formData={formData} setFormData={setFormData} />
             </Styled.BoardBodyBg>
-            <BoardFooter formData={formData} isBoardURL={isBoardURL} />
+            <BoardFooter formData={formData} setFormData={setFormData} isBoardURL={isBoardURL} />
         </>
     );
 };

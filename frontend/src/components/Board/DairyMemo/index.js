@@ -4,20 +4,24 @@ import Memo from '../../@shared/Memo';
 import { useEffect, useState } from 'react';
 
 const DairyMemo = ({ formData, setFormData }) => {
-    const date = new Date(); // 오늘 날짜
-    const dayOfWeek = date.getUTCDay();
-    const dateForm = date.toISOString('ko-KR').split('T')[0].split('-');
-    const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const dayOfWeek = date.getDay();
+    const dateForm = [date.getMonth() + 1, date.getDate()];
+    const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
     const dayOfWeekString = daysOfWeek[dayOfWeek];
-    const updatedate = new Date(formData.updatedAt); // 오늘 날짜
+
+    const updatedate = new Date(formData.updatedAt); //데이터 수정 필요
     const updatedayOfWeek = updatedate.getUTCDay();
-    const updatedaysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']; //요일 넣으려면 api필요
+    const updatedaysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
     const updatedayOfWeekString = updatedaysOfWeek[updatedayOfWeek];
-    const [selectedSticker, setSelectedSticker] = useState(formData.color);
     const datetime = formData.updatedAt;
     const [yearMonthDay, time] = datetime.split('T');
     const [year, month, day] = yearMonthDay.split('-');
+
+    const [selectedSticker, setSelectedSticker] = useState(formData.color);
     const stickers = [{ color: '#dfb1a3' }, { color: '#A5A2AA' }, { color: '#F3AC7F' }];
+
     useEffect(() => {
         const colorIndex = stickers.findIndex((sticker) => sticker.color === formData.color);
         setSelectedSticker(colorIndex);
@@ -33,7 +37,6 @@ const DairyMemo = ({ formData, setFormData }) => {
     };
 
     const handleInput = (event) => {
-        //NOTE 쓴 글
         const { name, value } = event.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -45,7 +48,7 @@ const DairyMemo = ({ formData, setFormData }) => {
             <Styled.Date>
                 {formData.createdAt && formData.updatedAt
                     ? `${month}월 ${day}일 ${updatedayOfWeekString}`
-                    : `${dateForm[1]}월 ${dateForm[2]}일 ${dayOfWeekString}`}
+                    : `${dateForm[0]}월 ${dateForm[1]}일 ${dayOfWeekString}`}
             </Styled.Date>
             <Styled.TitleBg>
                 <Styled.Tilte>제목</Styled.Tilte>
@@ -62,7 +65,7 @@ const DairyMemo = ({ formData, setFormData }) => {
                 value={formData.ask}
                 onChange={handleInput}
             />
-
+            <Styled.Text>원하시는 스티커 색상을 선택해주세요</Styled.Text>
             <Styled.Palette>
                 {stickers.map((sticker, index) => (
                     <Sticker

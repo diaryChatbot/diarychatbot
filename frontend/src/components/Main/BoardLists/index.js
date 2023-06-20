@@ -8,16 +8,16 @@ const BoardLists = ({ fetchMyDiary }) => {
             {fetchMyDiary?.map((diary) => {
                 const date = new Date(diary.createdAt);
                 const dayOfWeek = date.getDay();
-                const dateForm = date.toISOString('ko-KR').split('T')[0].split('-');
+                const dateForm = date.toLocaleDateString('ko-KR').split('.');
 
                 const daysOfWeek = [
-                    '토요일',
                     '일요일',
                     '월요일',
                     '화요일',
                     '수요일',
                     '목요일',
                     '금요일',
+                    '토요일',
                 ];
                 const dayOfWeekString = daysOfWeek[dayOfWeek];
                 return (

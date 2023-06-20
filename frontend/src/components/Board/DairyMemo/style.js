@@ -45,9 +45,18 @@ export const Cont = styled.textarea`
     font-family: var(--font-notoSerifKR);
     border-bottom: 1px solid #b0b0b0;
     background-color: #faf7f4;
+
+    &:focus {
+        border: 1px solid black;
+    }
+`;
+export const Text = styled.span`
+    color: #460f0f;
+    padding: 1rem;
 `;
 export const Palette = styled.div`
     justify-content: space-around;
     display: flex;
     list-style: none;
+    padding: 1rem;
 `;
