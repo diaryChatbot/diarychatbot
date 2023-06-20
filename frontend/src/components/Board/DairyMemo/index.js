@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 const DairyMemo = ({ formData, setFormData }) => {
     const date = new Date();
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate()); // Remove the +1 to get today's date
     const dayOfWeek = date.getDay();
     const dateForm = [date.getMonth() + 1, date.getDate()];
     const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
