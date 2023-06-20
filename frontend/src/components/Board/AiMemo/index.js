@@ -1,9 +1,9 @@
-import * as Styled from './style';
 import Memo from '../../@shared/Memo';
-import smile from './../../../assets/smile.png';
+import { TypingEffect } from '../../@shared/TypingEffect/TypingEffect';
 import happy from './../../../assets/happy.png';
 import sad from './../../../assets/sad.png';
-import { TypingEffect } from '../../@shared/TypingEffect/TypingEffect';
+import smile from './../../../assets/smile.png';
+import * as Styled from './style';
 
 const AiMemo = ({ formData }) => {
     return (

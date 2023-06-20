@@ -81,11 +81,11 @@ export const updateMyDiary = async (formData) => {
     const response = await instance.post('', {
         query: `mutation{
           updateMyDiary(
-            id:{"${formData.id}"},
-            createChatInput:{
-            title: "${formData.title}",
-            ask: "${formData.ask}",
-            color: ${formData.color}
+            id:"${formData.id}"
+            updateChatInput:{
+            title:"${formData.title}",
+            ask:"${formData.ask}",
+            color:${formData.color}
           }){
             id
             title
@@ -97,8 +97,20 @@ export const updateMyDiary = async (formData) => {
                 id
             }
             updatedAt
+            createdAt
           }
         }`,
+    });
+    return response;
+};
+
+export const deleteMyDiary = async (formData) => {
+    const response = await instance.post('', {
+        query: `
+            mutation {
+              deleteMyDiary(
+                id: "${formData.id}"
+              )} `,
     });
     return response;
 };

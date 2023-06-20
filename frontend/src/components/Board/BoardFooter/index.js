@@ -1,33 +1,63 @@
-import React from 'react';
-import * as Styled from './style';
-import Button from '../../@shared/Button';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCreateDiary } from '../../../hooks/@query/useCreateDiary';
+import { useDeleteDiary } from '../../../hooks/@query/useDeleteDiary';
+import { useUpdateDiary } from '../../../hooks/@query/useUpdateDiary';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import Button from '../../@shared/Button';
+import * as Styled from './style';
 
-const BoardFooter = ({ createClick, deleteClick, updateClick, formData }) => {
+const BoardFooter = ({ formData, isBoardURL }) => {
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [isAvailable, setIsAvailable] = useState(false);
+    const { mutate: createDiary } = useCreateDiary(setIsLoading);
+    const { mutate: updateMyDiary } = useUpdateDiary(setIsLoading);
+    const { mutate: deleteMyDiary } = useDeleteDiary(setIsLoading, navigate);
+
+    const CreateDiary = () => {
+        setIsLoading(true);
+        createDiary({
+            id: formData.id,
+            title: formData.title,
+            ask: formData.ask,
+            color: formData.color,
+        });
+    };
+
+    const UpdateMyDiary = () => {
+        setIsLoading(true);
+        updateMyDiary({
+            id: formData.id,
+            title: formData.title,
+            ask: formData.ask,
+            color: formData.color,
+        });
+    };
+
+    const DeleteMyDiary = () => {
+        setIsLoading(true);
+        deleteMyDiary({ id: formData.id });
+    };
 
     useEffect(() => {
         setIsAvailable(formData.title && formData.ask && formData.color);
     }, [formData.title, formData.ask, formData.color]);
 
-    const currentURL = window.location.href;
-    const isBoardURL = currentURL.endsWith('/Board/1');
     return (
         <Styled.ButtonWrapper>
             {!isBoardURL && (
-                <Button small primary onClick={updateClick}>
+                <Button small primary onClick={UpdateMyDiary}>
                     수정하기
                 </Button>
             )}
             {isBoardURL && (
-                <Button small primary onClick={createClick} disabled={!isAvailable}>
+                <Button small primary onClick={CreateDiary} disabled={!isAvailable}>
                     제출하기
                 </Button>
             )}
             {!isBoardURL && (
-                <Button small primary onClick={deleteClick}>
+                <Button small primary onClick={DeleteMyDiary}>
                     삭제하기
                 </Button>
             )}
