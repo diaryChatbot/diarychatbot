@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCreateDiary } from '../../../hooks/@query/useCreateDiary';
 import { useDeleteDiary } from '../../../hooks/@query/useDeleteDiary';
 import { useUpdateDiary } from '../../../hooks/@query/useUpdateDiary';
-import { Link } from 'react-router-dom';
 import Button from '../../@shared/Button';
 import * as Styled from './style';
-import { toast } from 'react-hot-toast';
-import { createDiary } from '../../../api/auth';
-
 const BoardFooter = ({ formData, isBoardURL, setFormData }) => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isAvailable, setIsAvailable] = useState(false);
     const { mutate: updateMyDiary } = useUpdateDiary(setIsLoading);
     const { mutate: deleteMyDiary } = useDeleteDiary(setIsLoading, navigate);
+    const { mutate: createMyDiary } = useCreateDiary(setIsLoading, setFormData);
+    const createDiaryMutation = useCreateDiary(setIsLoading);
 
     const CreateDiary = async () => {
-        try {
-            const response = await createDiary(formData);
-            setFormData(response.data.data.createDiary);
-            toast.success('일기가 저장되었습니다.');
-        } catch (error) {
-            toast.error('일기 저장에 실패했습니다.');
-        }
+        setIsLoading(true);
+        const response = await createDiaryMutation.mutateAsync(formData);
+        setFormData(response.data.data.createDiary);
     };
 
     const UpdateMyDiary = () => {

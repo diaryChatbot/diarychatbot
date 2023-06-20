@@ -5,7 +5,6 @@ import DairyMemo from '../DairyMemo';
 import * as Styled from './style';
 
 const BoardBody = ({ fetchMyDiary }) => {
-    const [diaries, setDiaries] = useState([]);
     const currentURL = window.location.href;
     const isBoardURL = currentURL.endsWith('/Board/1');
     const id = currentURL.split('/').pop();
@@ -20,18 +19,11 @@ const BoardBody = ({ fetchMyDiary }) => {
     });
 
     useEffect(() => {
-        console.log(fetchMyDiary);
-        if (!isBoardURL) {
-            setDiaries(fetchMyDiary);
-        }
-    }, [fetchMyDiary, isBoardURL]);
-
-    useEffect(() => {
-        if (diaries.length > 0) {
-            const foundDiary = diaries.find((diary) => diary.id === id);
+        if (fetchMyDiary.length > 0 && !isBoardURL) {
+            const foundDiary = fetchMyDiary.find((diary) => diary.id === id);
             setFormData(foundDiary);
         }
-    }, [diaries, id]);
+    }, [fetchMyDiary, id, isBoardURL]);
 
     const getBackgroundColor = (score) => {
         if (score > 70) {
