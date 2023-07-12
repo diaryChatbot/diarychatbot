@@ -1,6 +1,8 @@
 # 읽기짱 봇 백엔드
 일기를 쓰면 오늘 하루가 어땠는지 chat-gpt가 점수를 매겨주고 조언과 응원을 해줍니다.
 
+https://blog.naver.com/terry0222/223147890111
+
 https://jintakim.shop/graphql
 
 ![DALL·E 2023-05-05 19 32 22 - a pencil a diary-reading bot](https://user-images.githubusercontent.com/76115198/236435668-6476f99a-d705-4a5b-b321-f869a1923d9d.png)
